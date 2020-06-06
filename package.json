@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "make" : "0.8.1",
     "@hapi/joi": "^17.1.1",
     "@types/react": "^16.9.35",
     "axios": "^0.19.2",
