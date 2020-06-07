@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FormGroup, FormControl , Button } from 'react-bootstrap';
+import {FormGroup, FormControl , Button , Form} from 'react-bootstrap';
 // import Navigation from './common/Navigation';
 const axios = require('axios');
 import { Redirect } from 'react-router-dom';
@@ -88,7 +88,7 @@ class SignIn extends Component {
                     </FormGroup>
                     <FormGroup>
                         <FormControl 
-                            input='text'
+                            input='password'
                             placeholder='Password'
                             value={this.state.password} 
                             onChange={this.updatePassword}

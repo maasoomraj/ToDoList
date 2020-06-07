@@ -49949,7 +49949,7 @@ var SignIn = /*#__PURE__*/function (_Component) {
         onChange: this.updateEmail,
         className: "inputBox"
       })), _react.default.createElement(_reactBootstrap.FormGroup, null, _react.default.createElement(_reactBootstrap.FormControl, {
-        input: "text",
+        input: "password",
         placeholder: "Password",
         value: this.state.password,
         onChange: this.updatePassword,
