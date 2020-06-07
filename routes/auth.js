@@ -57,4 +57,57 @@ router.post('/login', async (req,res) => {
     res.header('authToken', token).send({user : user , token : token });
 });
 
+router.post('/updateName', async (req,res) => {
+
+    console.log(req.body);
+
+    // Derive _id of user from token
+    let userId;
+    try{
+        userId = jwt.verify(req.body.userId , process.env.TOKEN_SECRET)._id;
+    }catch(err){
+        res.status(400).send("Invalid Token");
+    }
+
+    const { name } = req.body;
+    const user = await User.findOne({ _id : userId });
+
+    try{
+        await user.updateOne({ name : name});
+        res.send({user : user});
+    }catch(err){
+        res.status(400).send(err);
+    }
+});
+
+router.post('/updatePassword', async (req,res) => {
+
+    console.log(req.body);
+
+    // Derive _id of user from token
+    let userId;
+    try{
+        userId = jwt.verify(req.body.userId , process.env.TOKEN_SECRET)._id;
+    }catch(err){
+        res.status(400).send("Invalid Token");
+    }
+    const { oldPassword , newPassword } = req.body;
+    const user = await User.findOne({ _id : userId });
+
+    // Validate Password
+    const validPass = await bcrypt.compare(oldPassword, user.password);
+    if(!validPass) return res.status(400).send("Old Password is wrong");
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    try{
+        await user.updateOne({ password : hashedPassword});
+        res.send({ user : user });
+    }catch(err){
+        res.status(400).send(err);
+    }
+});
+
 module.exports = router;

@@ -18,7 +18,8 @@ import SignIn from './components/SignIn';
 import AddTask from './components/AddTask';
 import ViewTask from './components/ViewTask';
 import Home from './components/Home';
-
+import updateName from './components/updateName';
+import updatePassword from './components/updatePassword';
 
 render(
     <Router history={history}>
@@ -29,6 +30,8 @@ render(
             <Route path='/AddTask' component={AddTask} />
             <Route path='/ViewTask' component={ViewTask} />
             <Route path='/home' component={Home} />
+            <Route path='/updateName' component={updateName} />
+            <Route path='/updatePassword' component={updatePassword} />
         </Switch>
     </Router>,
     document.getElementById('root')

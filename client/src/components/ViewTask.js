@@ -16,29 +16,36 @@ class ViewTask extends Component {
         tasks : [],
         loading : false,
         typeTask : '',
+        status : '',
         error : ''
     };
 
     updateTypeTask = event => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         this.setState({ typeTask : event.target.value });
+    }
+
+    updateStatus = event => {
+        // console.log(event.target.value);
+        this.setState({ status : event.target.value });
     }
 
     viewTask = async () => {
 
         this.setState({ error : false, loading : true , view : false, tasks : [] });
 
-        let data;
+        let data = {};
+        data.userId = localStorage.getItem('token');
+        
         if(this.state.typeTask){
-            data = ({
-                userId : localStorage.getItem('token'),
-                typeTask : this.state.typeTask
-            });
-        }else{
-            data = ({
-                userId : localStorage.getItem('token')
-            });
+            data.typeTask = this.state.typeTask;
         }
+
+        if(this.state.status){
+            data.status = this.state.status;
+        }
+
+        // console.log(data);
 
         await axios.post(window.location.protocol
             + '//'
@@ -47,7 +54,7 @@ class ViewTask extends Component {
             + window.location.port
             + '/api/tasks/viewTask' , data)
             .then(res => {
-                console.log("SUCCESS");
+                // console.log("SUCCESS");
                 this.setState({ loading : false });
                 this.setState({ view : true , tasks : res.data.tasks });
             })
@@ -57,7 +64,7 @@ class ViewTask extends Component {
     }
 
     deleteTask = async event => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         this.setState({ error : false, loading : true , view : false, tasks : [] });
 
         await axios.post(window.location.protocol
@@ -70,7 +77,7 @@ class ViewTask extends Component {
                 _id : event.target.value
             })
             .then(res => {
-                console.log("SUCCESS");
+                // console.log("SUCCESS");
             })
             .catch(error => {
                 this.setState({ loading : false , error : true });
@@ -80,7 +87,7 @@ class ViewTask extends Component {
     }
 
     changeWork = async event => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         this.setState({ error : false, loading : true , view : false, tasks : [] });
 
         await axios.post(window.location.protocol
@@ -94,7 +101,7 @@ class ViewTask extends Component {
                 status : 'Work in Progress'
             })
             .then(res => {
-                console.log("SUCCESS");
+                // console.log("SUCCESS");
             })
             .catch(error => {
                 this.setState({ loading : false , error : true });
@@ -104,7 +111,7 @@ class ViewTask extends Component {
     }
 
     changeComp = async event => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         this.setState({ error : false, loading : true , view : false, tasks : [] });
 
         await axios.post(window.location.protocol
@@ -118,7 +125,7 @@ class ViewTask extends Component {
                 status : 'Completed'
             })
             .then(res => {
-                console.log("SUCCESS");
+                // console.log("SUCCESS");
             })
             .catch(error => {
                 this.setState({ loading : false , error : true });
@@ -144,7 +151,7 @@ class ViewTask extends Component {
         let tasks;
         if(this.state.tasks){
             tasks = this.state.tasks.map((Task) => {
-                console.log(Task.endTime);
+                // console.log(Task.endTime);
             return (
                 <div className="task">
                     {/* {Task.status === "New Task" ? <div >{Task.typeTask} - {Task.description}</div> : ''}
@@ -185,6 +192,8 @@ class ViewTask extends Component {
             );
             });
         }
+
+        // console.log(tasks.length);
         return(
             <div>
                 <Navigation />
@@ -192,7 +201,7 @@ class ViewTask extends Component {
                     <br />
                     <h3>View Task -</h3>
 
-                    <label className="label">Choose type of Task :  </label>
+                    <label className="label">Choose Priority :  </label>
                     <select onChange={this.updateTypeTask} value={this.state.typeTask} className="dropdown">
                         <option selected value="">All</option>
                         <option value="Personal">Personal</option>
@@ -201,10 +210,17 @@ class ViewTask extends Component {
                         <option value="Others">Others</option>
                     </select>
 
+                    <label className="label">Choose Status :  </label>
+                    <select onChange={this.updateStatus} value={this.state.status} className="dropdown">
+                        <option selected value="">All</option>
+                        <option value="New Task">New Task</option>
+                        <option value="Work in Progress">Work in Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+
                     <Button className="button-view" onClick={this.viewTask}>View</Button>
                 </div>
-
-                {this.state.view ? <div>{tasks}</div> : ''}
+                {this.state.view ? <div>{tasks.length ? tasks : <h1 style={{color: "#000000"}}>No Task Added !!</h1> }</div> : '' }
                 {this.state.loading ? <h1 style={{color: "#000000"}}>Loading ...</h1> : ''}
             </div>
         );

@@ -31,7 +31,7 @@ class AddTask extends Component {
     }
 
     updateEndtime = date => {
-        console.log(this.state.endTime);
+        // console.log(this.state.endTime);
         this.setState({endTime : date });
     }
 
@@ -49,7 +49,7 @@ class AddTask extends Component {
         const { description , comments, status , typeTask } = this.state;
         const endTime = (this.state.endTime).toString();
         const startTime = (new Date()).toString();
-        console.log(startTime);
+        // console.log(startTime);
         await axios.post(window.location.protocol
             + '//'
             + window.location.hostname
@@ -65,7 +65,7 @@ class AddTask extends Component {
                 status : status
             })
             .then(res => {
-                console.log("SUCCESS");
+                // console.log("SUCCESS");
                 this.setState({ loading : false , redirect : true });
             })
             .catch(error => {
@@ -81,7 +81,7 @@ class AddTask extends Component {
             this.setState({ user : user });
         }
 
-        console.log(localStorage.getItem('token'));
+        // console.log(localStorage.getItem('token'));
     }
 
     
@@ -132,7 +132,7 @@ class AddTask extends Component {
                     <select onChange={this.updateStatus} value={this.state.status} className="dropdown">
                         <option default value="" disabled selected>Select your option</option>
                         <option value="New Task">New Task</option>
-                        <option value="Work in progress">Work in Progress</option>
+                        <option value="Work in Progress">Work in Progress</option>
                         <option value="Completed">Completed</option>
                     </select>
                     <br /><br /><br />

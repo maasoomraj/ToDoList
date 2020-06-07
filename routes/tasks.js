@@ -50,15 +50,20 @@ router.post('/viewTask', async (req,res) => {
     console.log(userId);
 
     let task = [];
-    if(!req.body.typeTask){
-        // If typetask is not given return all tasks
+    if(!req.body.typeTask && !req.body.status){
         task = await Task.find({ userId : userId });
         console.log(task);
         res.send({ tasks : task});
-    }
-    else{
-        // If typetask is given return tasks of type typeTask
-        const task = await Task.find({ userId : userId , typeTask : req.body.typeTask });
+    }else if(req.body.typeTask && !req.body.status){
+        task = await Task.find({ userId : userId , typeTask : req.body.typeTask });
+        console.log(task);
+        res.send({ tasks : task});
+    }else if(!req.body.typeTask && req.body.status){
+        task = await Task.find({ userId : userId , status : req.body.status });
+        console.log(task);
+        res.send({ tasks : task});
+    }else{
+        task = await Task.find({ userId : userId , typeTask : req.body.typeTask , status : req.body.status });
         console.log(task);
         res.send({ tasks : task});
     }

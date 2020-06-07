@@ -87,7 +87,7 @@ class Login extends Component {
                     </div>
 
                     {this.state.loading ? <div className="flashMessage">Wait .... We are processing ..</div> : ''}
-                    {this.state.error ? <div className="flashMessage">Error !! Please Retry !!</div> : ''}
+                    {this.state.error ? <div className="flashMessage">Error !! Email or Password is not correct !!</div> : ''}
                     {this.state.redirect ? <Redirect to='/home'></Redirect> : '' }
                 </div>
 

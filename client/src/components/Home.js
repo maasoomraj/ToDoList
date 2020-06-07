@@ -28,8 +28,15 @@ class Home extends Component {
             <div className='App'>
                 <Navigation />
 
-                <div>
-                    <h3>Hey !! </h3>{this.state.user ? <h3>{this.state.user.name}</h3> : ''}
+                <div className="home">
+                    Welcome to ToDoList WebApp, {this.state.user ? <div className="home-line"> {this.state.user.name}</div> : ''}
+                    <br /><br />
+                    <div>
+                        Email - {this.state.user ? <div className="home-line"> {this.state.user.email}</div> : ''}
+                        <br />
+                        <Button className="button-update"><Link to='/updateName'>Update Username</Link></Button>
+                        <Button className="button-update" onClick={this.viewTask}><Link to='/updatePassword'>Update Password</Link></Button>
+                    </div>
                 </div>
 
                 {this.state.logout ? <Redirect to='/'></Redirect> : ''}
